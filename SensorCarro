@@ -1,0 +1,74 @@
+//Sensor
+const int TriggerPin = PB10;
+const int EchoPin = PB11;
+const int BombilloBlanco= PB6;
+const int BombilloVerde= PB7;
+const int BombilloAmarillo= PB8;
+const int BombilloRojo= PB9;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TriggerPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
+  pinMode(BombilloBlanco,OUTPUT);
+  pinMode(BombilloVerde,OUTPUT);
+  pinMode(BombilloAmarillo,OUTPUT);
+  pinMode(BombilloRojo,OUTPUT);
+  
+}
+
+void loop() {
+  int cm = ping(TriggerPin, EchoPin);
+  Serial.print("Distancia: ");
+  Serial.println(cm);
+  delay(1000);
+}
+
+int ping(int TriggerPin, int EchoPin) {
+  long duration, distanceCm;
+  
+  digitalWrite(TriggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TriggerPin, HIGH);  //generamos Trigger (disparo) de 5ms
+  delayMicroseconds(5);
+  digitalWrite(TriggerPin, LOW);
+  
+  duration = pulseIn(EchoPin, HIGH);  //medimos el tiempo entre pulsos, en microseg
+  
+  distanceCm = duration * 10 / 292/ 2;   //convertimos a distancia, en cm
+  distancia(distanceCm);
+}
+void distancia(long distanceCm){
+  if (distanceCm <=20){
+     digitalWrite(BombilloBlanco,HIGH);
+  digitalWrite(BombilloVerde,LOW);
+  digitalWrite(BombilloAmarillo,LOW);
+  digitalWrite(BombilloRojo,HIGH);
+ }
+ else
+ if(distanceCm<=35 && distanceCm>=20){
+  digitalWrite(BombilloBlanco,HIGH);
+  digitalWrite(BombilloVerde,HIGH);
+  digitalWrite(BombilloAmarillo,LOW);
+  digitalWrite(BombilloRojo,LOW);
+}
+else if(distanceCm<=50 && distanceCm>=35){
+  digitalWrite(BombilloBlanco,HIGH);
+  digitalWrite(BombilloVerde,LOW);
+  digitalWrite(BombilloAmarillo,HIGH);
+  digitalWrite(BombilloRojo,LOW);
+}
+else if(distanceCm<=65 && distanceCm>=50  ){
+   digitalWrite(BombilloBlanco,HIGH);
+  digitalWrite(BombilloVerde,LOW);
+  digitalWrite(BombilloAmarillo,LOW);
+  digitalWrite(BombilloRojo,HIGH);
+}
+else{
+digitalWrite(BombilloBlanco,HIGH);
+  digitalWrite(BombilloVerde,LOW);
+  digitalWrite(BombilloAmarillo,LOW);
+  digitalWrite(BombilloRojo,LOW);
+
+}
+ }
